@@ -25,9 +25,12 @@ Installation / Requirements
 * install the required Python packages:
 .. code-block:: console
     :linenos:
+
     pip3 install -r requirements.txt
+
 * AWS permissions to scans the resources:
 .. code-block:: json
+
     {
         "Version": "2012-10-17",
         "Statement": [
@@ -62,6 +65,7 @@ Executing
 
 2. Execute the main.py script with argument: '--dest-domain' and (optional)'--proxies'. examples:
     .. code-block:: console
+
         python3 main.py --dest-domain test.interactsh.com
         python3 main.py --dest-domain test2.interactsh.com --proxies http://127.0.0.1:8080 https://127.0.0.1:8080
 
