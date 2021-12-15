@@ -23,10 +23,9 @@ Installation / Requirements
 ---------------------------
 * cPython 3.6 and higher
 * install the required Python packages:
-.. code-block:: console
-    :linenos:
+    .. code-block:: console
 
-    pip3 install -r requirements.txt
+        pip3 install -r requirements.txt
 
 * AWS permissions to scans the resources:
 .. code-block:: json
