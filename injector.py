@@ -62,5 +62,5 @@ class Injector:
                                             verify=False,
                                             proxies=self._proxies,
                                             timeout=timeout)
-            except Exception as ex:
-                logger.info(f"Failed to send the request: {ex.args}")
+            except:
+                pass
