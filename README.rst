@@ -53,7 +53,7 @@ Installation / Requirements
 Before Execution The Script
 ########
 You need a server which will wait for DNS requests from the vulnerable endpoints,
-For this demo we are using: `interactsh <https://github.com/projectdiscovery/interactsh>`_. You can use interactsh client or `Interactsh web app <https://app.interactsh.com/#/>`_
+For this demo we are using: `interactsh <https://github.com/projectdiscovery/interactsh>`_, which is an **external** tool You can use interactsh client or `Interactsh web app <https://app.interactsh.com/#/>`_
 
 Executing
 ---------------------------
