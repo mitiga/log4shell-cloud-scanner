@@ -2,13 +2,15 @@
 
 Introduction
 -------------
-we are providing DevOps and security teams script to identify cloud workloads that may be vulnerable to the Log4j vulnerability(log4shell) in their AWS account. The script enables security teams to identify external-facing AWS assets by running the exploit on them, and thus be able to map them and quickly patch them
+we are providing DevOps and security teams script to identify cloud workloads that may be vulnerable to the Log4j vulnerability(log4shell) in their AWS account.
+We currently support *"CVE-2021-44228"* and *"CVE-2021-45046"* RCE vulnerabilities. The script enables security teams to identify external-facing AWS assets by running the exploit on them, and thus be able to map them and quickly patch them
 
 
 General Information
 -------------------
 
 - Information about CVE-2021-44228: https://nvd.nist.gov/vuln/detail/CVE-2021-44228
+- Information about CVE-2021-45046: https://nvd.nist.gov/vuln/detail/CVE-2021-45046
 - central updated location which outlines everything you need to know about Log4Shell: https://www.mitiga.io/blog/log4shell-everything-in-one-place
 - Algorithm drill-down: https://www.mitiga.io/blog/log4shell-identify-vulnerable-external-facing-workloads-in-aws-tutorial
 
@@ -62,10 +64,17 @@ Executing
     or using the web app:
         .. image:: images/webinteractsh.png
 
-2. Execute the main.py script with argument: '--dest-domain' and (optional)'--proxies'. examples:
+2. Execute the main.py script with argument:
+    * *'--dest-domain'* - for the server which will get the response from the vulnerable endpoint
+    * *'--cve-id'* - the CVE to check(CVE-2021-44228, CVE-2021-45046)
+    * (optional) *'--proxies'* - If you run the requests from a proxy server
+examples:
     .. code-block:: console
-
+        # Checking the oldest CVE(CVE-2021-44228)
         python3 main.py --dest-domain test.interactsh.com
+        # Checking with CVE-2021-45046
+        python3 main.py --dest-domain test.interactsh.com --cve-id=CVE-2021-45046
+        # Checking the oldest CVE(CVE-2021-44228), using proxies
         python3 main.py --dest-domain test2.interactsh.com --proxies http://127.0.0.1:8080 https://127.0.0.1:8080
 
 Finding Vulnerable Endpoints

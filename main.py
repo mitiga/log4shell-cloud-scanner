@@ -1,6 +1,6 @@
 import logging
 from urllib.parse import urlparse
-from injector import Injector
+from injector import CVE_2021_44228_Injector, CVE_2021_45046_Injector
 import boto3
 from aws_detector import get_ec2_urls
 from aws_detector import get_load_balancers
@@ -16,6 +16,12 @@ logger.setLevel(logging.INFO)
 logger.addHandler(sh)
 
 
+DEFAULT_CVE = "CVE-2021-44228"
+
+LOG4SHELL_CVE = {"CVE-2021-44228": CVE_2021_44228_Injector,
+                 "CVE-2021-45046": CVE_2021_45046_Injector}
+
+
 def get_parser():
     parser = argparse.ArgumentParser(prog='Mitiga Log4shell AWS Parser')
     parser.add_argument('-d', '--dest-domain', required=True,
@@ -24,6 +30,8 @@ def get_parser():
     parser.add_argument('-p', '--proxies', nargs='*', help='List of url addresses of your proxy servers. '
                                                            'Default: not using any proxy server. Example: '
                                                            '-p http://127.0.0.1:8080 https://127.0.0.1:8080')
+    parser.add_argument('-c', '--cve-id', default=DEFAULT_CVE, choices=list(LOG4SHELL_CVE.keys()),
+                        help='Choose which vulnerable to check. If not give, use the first oldest vulnerable: CVE-2021-44228')
     return parser
 
 
@@ -38,7 +46,8 @@ def main(args):
             format_prox[parsed_uri.scheme] = p
     else:
         format_prox = None
-    i = Injector(args.dest_domain, format_prox)
+    injector_cls = LOG4SHELL_CVE[args.cve_id]
+    i = injector_cls(args.dest_domain, format_prox)
     ec2 = boto3.client('ec2')
     regions = [region['RegionName'] for region in ec2.describe_regions()['Regions']]
     for region in regions:
